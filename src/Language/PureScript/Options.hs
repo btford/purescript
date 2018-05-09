@@ -10,13 +10,15 @@ data Options = Options
   -- ^ Verbose error message
   , optionsNoComments :: Bool
   -- ^ Remove the comments from the generated js
+  , optionsDangerouslyIgnoreExterns :: Bool
+  -- ^ Do not check externs files
   , optionsCodegenTargets :: S.Set CodegenTarget
   -- ^ Codegen targets (JS, CoreFn, etc.)
   } deriving Show
 
 -- Default make options
 defaultOptions :: Options
-defaultOptions = Options False False (S.singleton JS)
+defaultOptions = Options False False False (S.singleton JS)
 
 data CodegenTarget = JS | JSSourceMap | CoreFn
   deriving (Eq, Ord, Show)

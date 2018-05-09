@@ -161,8 +161,12 @@ buildMakeActions outputDir filePathMap foreigns usePrefix =
               tell $ errorMessage' (CF.moduleSourceSpan m) $ UnnecessaryFFIModule mn path
               return Nothing
           | otherwise -> do
-              checkForeignDecls m path
-              return $ Just $ Imp.App Nothing (Imp.Var Nothing "require") [Imp.StringLiteral Nothing "./foreign.js"]
+              ignoreExterns <- lift $ asks optionsDangerouslyIgnoreExterns
+              if ignoreExterns
+                then do return $ Just $ Imp.App Nothing (Imp.Var Nothing "require") [Imp.StringLiteral Nothing "./foreign.js"]
+              else do
+                checkForeignDecls m path
+                return $ Just $ Imp.App Nothing (Imp.Var Nothing "require") [Imp.StringLiteral Nothing "./foreign.js"]
         Nothing | requiresForeign m -> throwError . errorMessage' (CF.moduleSourceSpan m) $ MissingFFIModule mn
                 | otherwise -> return Nothing
       rawJs <- J.moduleToJs m foreignInclude

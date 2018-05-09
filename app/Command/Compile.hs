@@ -115,6 +115,13 @@ verboseErrors = Opts.switch $
   <> Opts.long "verbose-errors"
   <> Opts.help "Display verbose error messages"
 
+
+ignoreForeign :: Opts.Parser Bool
+ignoreForeign = Opts.switch $
+      Opts.short 'f'
+  <> Opts.long "ignore-foreign"
+  <> Opts.help "Dangerously ignore foreign imports (for ES6 imports)"
+
 noPrefix :: Opts.Parser Bool
 noPrefix = Opts.switch $
      Opts.short 'p'
@@ -161,6 +168,7 @@ options =
   P.Options
     <$> verboseErrors
     <*> (not <$> comments)
+    <*> ignoreForeign
     <*> (handleTargets <$> codegenTargets)
   where
     -- Ensure that the JS target is included if sourcemaps are
