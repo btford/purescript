@@ -11,10 +11,12 @@ data Options = Options
   -- ^ Remove the comments from the generated js
   , optionsSourceMaps :: Bool
   -- ^ Generate source maps
+  , optionsDangerouslyIgnoreExterns :: Bool
+  -- ^ ignore checking externs
   , optionsDumpCoreFn :: Bool
   -- ^ Dump CoreFn
   } deriving Show
 
 -- Default make options
 defaultOptions :: Options
-defaultOptions = Options False False False False
+defaultOptions = Options False False False False False

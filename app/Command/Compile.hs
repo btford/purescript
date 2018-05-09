@@ -111,6 +111,13 @@ verboseErrors = Opts.switch $
   <> Opts.long "verbose-errors"
   <> Opts.help "Display verbose error messages"
 
+
+ignoreForeign :: Opts.Parser Bool
+ignoreForeign = Opts.switch $
+      Opts.short 'f'
+  <> Opts.long "ignore-foreign"
+  <> Opts.help "Dangerously ignore foreign imports (for ES6 imports)"
+
 noPrefix :: Opts.Parser Bool
 noPrefix = Opts.switch $
      Opts.short 'p'
@@ -136,6 +143,7 @@ options :: Opts.Parser P.Options
 options = P.Options <$> verboseErrors
                     <*> (not <$> comments)
                     <*> sourceMaps
+                    <*> ignoreForeign
                     <*> dumpCoreFn
 
 pscMakeOptions :: Opts.Parser PSCMakeOptions
